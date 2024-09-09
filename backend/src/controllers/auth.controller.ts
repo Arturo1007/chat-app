@@ -1,7 +1,6 @@
 import { Request, Response } from "express"
 import prisma from "../db/prisma";
 import bcryptjs from "bcryptjs";
-import generateToken from "../utils/generateToken";
 
 export const login = async (req: Request, res: Response) => {
   try {
@@ -11,21 +10,36 @@ export const login = async (req: Request, res: Response) => {
     if(!user) {
       return res.status(400).json({error: 'Invalid credentials'});
     }
+
     const isPasswordCorrect = await bcryptjs.compare(password, user.password);
 
     if(!isPasswordCorrect) {
       return res.status(400).json({error: 'Invalid credentials'});
     }
   
-    generateToken(user.id, res);
+    // Create Session
+    req.session.regenerate(function (err) {
+      if (err) {
+        res.status(500).json({error: 'Internal server error - Error creating new Session'});
+        console.log("Error on Auth controller - couldn't regenerate the session of user: " + user.id);
+      }
 
-    res.status(200).json({
-      id: user.id,
-      fullName: user.fullName,
-      gender: user.gender,
-      profilePic: user.profilePic
-    })
+      req.session.userId = user.id;
 
+      req.session.save(function (err) {
+        if (err) {
+          res.status(500).json({error: 'Internal server error - Error creating new Session'});
+          console.log("Error on Auth controller - couldn't save the session of user: " + user.id);
+        }
+
+        res.status(200).json({
+          id: user.id,
+          fullName: user.fullName,
+          gender: user.gender,
+          profilePic: user.profilePic
+        })
+      })
+    });
   } catch (error: any) {
     console.log("Error in login controller", error.message)
     res.status(500).json({error: 'Internal server error'});
@@ -34,8 +48,16 @@ export const login = async (req: Request, res: Response) => {
 
 export const logout = async (req: Request, res: Response) => {
   try{
-    res.cookie("jwt", "", {maxAge: 0});
-    res.status(200).json({message: "logged out succesfully"})
+    req.session.userId = null;
+    
+    req.session.destroy(function (err) {
+      if (err) {
+        res.status(500).json({error: 'Internal server error - Error Login out'});
+        console.log("Error on Auth controller - couldn't delete the user session");
+      }
+
+      res.status(200).json({message: "logged out succesfully"})
+    })
   }
   catch(error: any){
     console.log('Error in logout controller', error.message);
@@ -84,8 +106,6 @@ export const signup = async (req: Request, res: Response) => {
     })
 
     if (newUser) {
-      // JWT, this will be updated to cookie session afetwards
-      generateToken(newUser.id, res);
       res.status(201).json({
         id: newUser.id,
         fullName: newUser.fullName,
@@ -106,7 +126,7 @@ export const signup = async (req: Request, res: Response) => {
 
 export const getCurrentUser = async(req: Request, res: Response) => {
   try {
-    const user = await prisma.user.findUnique({where:{id: req.user.id}})
+    const user = await prisma.user.findUnique({where:{id: req.userId}})
 
     if(!user) {
       return res.status(404).json({error: 'User not found'});
@@ -120,7 +140,7 @@ export const getCurrentUser = async(req: Request, res: Response) => {
     });
 
   } catch (error: any) {
-    console.log('Error in signiup controller', error.mesage);
+    console.log('Error in signup controller', error.mesage);
     res.status(500).json({error: 'Internal Server Error'})
   }
 }

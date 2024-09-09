@@ -28,6 +28,13 @@ model User {
   messages Message[]
 }
 
+model Session {
+  id        String   @id
+  sid       String   @unique
+  data      String
+  expiresAt   DateTime
+}
+
 model Conversation {
   id String @id @default(uuid())
   createdAt DateTime @default(now())
