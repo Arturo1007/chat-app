@@ -140,7 +140,7 @@ export const getCurrentUser = async(req: Request, res: Response) => {
     });
 
   } catch (error: any) {
-    console.log('Error in signup controller', error.mesage);
+    console.log('Error in signup controller', error.message);
     res.status(500).json({error: 'Internal Server Error'})
   }
 }
