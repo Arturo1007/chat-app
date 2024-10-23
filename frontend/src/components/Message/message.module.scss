@@ -1,0 +1,55 @@
+.Message {
+  max-width: 70%;
+  padding: 10px 15px;
+  border-radius: 3px;
+  position: relative;
+  font-size: 14px;
+  color: #fff;
+  line-height: 1.5;
+
+  p {
+    font-size: var(--bodyText);
+  }
+
+  &.ActiveUserMessage,
+  &.OtherUserMessage {
+    &::after {
+      content: '';
+      position: absolute;
+      top: 77%;
+      width: 0;
+      height: 0;
+      border-left: 5px solid transparent; 
+      border-right: 5px solid transparent; 
+    }
+  }
+
+  &.ActiveUserMessage {
+    background-color: #007bff;
+    align-self: flex-end;
+    margin-right: 1em;
+
+    &::after {
+      border-top: 10px solid #007bff;
+      right: -8px;
+      transform: rotate(-90deg);
+    }
+  }
+
+  &.OtherUserMessage {
+    background-color: var(--primaryColor);
+    align-self: flex-start;
+    margin-left: 1em;
+
+    &::after {
+      border-top: 10px solid var(--primaryColor);
+      left: 2px;
+      left: -8px;
+      transform: rotate(90deg);
+    }
+  }
+
+  &.ActiveUserMessage {
+    align-self: flex-end;
+  }
+}

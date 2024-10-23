@@ -1,0 +1,35 @@
+// Variables
+$mobile-breakpoint: 640px;
+$tablet-breakpoint: 768px;
+$container-breakpoint: 1144px;
+
+// Mixin for mobile styles
+@mixin mobile-breakpoint {
+  @media (max-width: $mobile-breakpoint) {
+    @content;
+  }
+}
+
+// Mixin for tablet styles
+@mixin tablet-breakpoint {
+  @media (max-width: $tablet-breakpoint) {
+    @content;
+  }
+}
+
+// Mixing for container breakpoint
+@mixin container-breakpoint {
+  @media (max-width: $container-breakpoint) {
+    @content;
+  }
+}
+
+// General site container.
+@mixin container {
+  width: $container-breakpoint;
+  margin: 0 auto;
+
+  @include container-breakpoint {
+    width: 100%;
+  }
+}

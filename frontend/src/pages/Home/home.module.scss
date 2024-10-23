@@ -1,0 +1,4 @@
+@import "../../mixing.scss";
+.HomeContainer {
+ @include container;
+}

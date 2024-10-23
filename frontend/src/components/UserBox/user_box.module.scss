@@ -1,0 +1,49 @@
+.userBoxContainer {
+  display: flex;
+  padding: 0.5rem 0rem;
+  cursor: pointer;
+  box-shadow: 0 1px 3px var(--lighDarkShadowColor);
+  transition: box-shadow 5s ease-in;
+  overflow: hidden;
+
+  &:hover,
+  &:focus {
+    box-shadow: inset 0 2px 4px var(--lighDarkShadowColor);
+  }
+  &:active {
+    transform: scale(1.02);
+  }
+
+  .profileImageContainer {
+    flex: 0 0 20%;
+    overflow: hidden;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+    img {
+      width: 2rem;
+      height: 2rem;
+      border-radius: 50%;
+      object-fit: contain;
+    }
+  }
+
+  .dataContainer {
+    flex: 0 0 80%;
+    display: flex;
+    flex-direction: column;
+    justify-items: center;
+    font-size: var(--bodyText);
+    padding-bottom: 0.4rem;
+    
+    > div {
+      display: flex;
+      align-items: center;
+    }
+    
+    .lastMessage {
+      color: var(--disabledTextColor)
+    }
+  }
+}
