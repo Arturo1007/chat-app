@@ -6,9 +6,18 @@
   font-size: 14px;
   color: #fff;
   line-height: 1.5;
+  display: flex;
+  gap: 5px;
 
   p {
     font-size: var(--bodyText);
+    margin: 0; 
+  }
+
+  img {
+    width: 40px;
+    height: 40px; 
+    border-radius: 50%; 
   }
 
   &.ActiveUserMessage,
@@ -43,13 +52,8 @@
 
     &::after {
       border-top: 10px solid var(--primaryColor);
-      left: 2px;
       left: -8px;
       transform: rotate(90deg);
     }
-  }
-
-  &.ActiveUserMessage {
-    align-self: flex-end;
   }
 }

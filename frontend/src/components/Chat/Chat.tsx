@@ -33,14 +33,11 @@ export default function Chat() {
         <p>Arturo Batista Quiroz</p>
       </div>
       <div className={styles.messagesSection}>
-        <Message message="Hola" isCurrentUserMessage={true} />
-        <Message message="Hola BB" isCurrentUserMessage={false} />
-        <Message message="Como estas?" isCurrentUserMessage={true} />
-        <Message message="Muy bien!" isCurrentUserMessage={false} />
-        <Message message="Me alegro rey." isCurrentUserMessage={true} />
-        <Message message="Me alegro rey." isCurrentUserMessage={true} />
-        <Message message="Me alegro rey." isCurrentUserMessage={true} />
-        <Message message="Adios" isCurrentUserMessage={false} />
+        <Message message="Hola" isCurrentUserMessage={true} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />
+        <Message message="Hola BB" isCurrentUserMessage={false} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />
+        <Message message="Como estas?" isCurrentUserMessage={true} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />
+        <Message message="Muy bien!" isCurrentUserMessage={false} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />
+        <Message message="Me alegro rey." isCurrentUserMessage={true} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />        
         <div ref={messagesEndRef} />
       </div>
       <div className={styles.inputContainer}>
