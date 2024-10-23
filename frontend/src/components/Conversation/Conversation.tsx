@@ -1,8 +1,8 @@
 import React, { useRef, useState, useEffect } from "react";
-import styles from "./chat.module.scss";
+import styles from "./conversation.module.scss";
 import Message from "../Message/Message";
 
-export default function Chat() {
+export default function Conversation() {
 
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);

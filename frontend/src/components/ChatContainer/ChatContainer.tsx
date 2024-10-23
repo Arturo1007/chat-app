@@ -1,7 +1,7 @@
 import React from "react";
 import styles from "./chat_container.module.scss";
 import UserBox from "../UserBox/UserBox";
-import Chat from "../Chat/Chat";
+import Chat from "../Conversation/Conversation";
 
 export default function ChatContainer() {
   return (
