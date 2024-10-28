@@ -135,6 +135,7 @@ export const getCurrentUser = async(req: Request, res: Response) => {
     res.status(200).json({
       id: user.id,
       fullName: user.fullName,
+      username: user.username,
       gender: user.gender,
       profilePic: user.profilePic
     });

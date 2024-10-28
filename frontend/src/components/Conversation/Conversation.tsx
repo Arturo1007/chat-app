@@ -20,7 +20,6 @@ export default function Conversation() {
 
   // Scroll to the bottom whenever the messages change
   useEffect(() => {
-    console.log('hola')
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }

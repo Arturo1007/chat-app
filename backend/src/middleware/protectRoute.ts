@@ -5,7 +5,7 @@ const protectedRoute = async (req: Request, res: Response, next: NextFunction) =
     req.userId = req.session.userId;
     next();
   }
-  else res.status(500).json({error: 'Unauthorized'})
+  else res.status(401).json({error: 'Unauthorized'})
 }
    
 export default protectedRoute
