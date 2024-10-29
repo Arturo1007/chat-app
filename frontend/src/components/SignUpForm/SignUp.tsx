@@ -1,6 +1,7 @@
 import axios from "axios";
 import { useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
+import { NewUserType } from "../../types/userTypes";
 
 export default function SignUpForm() {
   const [formData, setFormData] = useState({
@@ -18,21 +19,19 @@ export default function SignUpForm() {
     e.preventDefault();
     const submitData = async () => {
       try {
-        await axios.post(
-          "api/auth/signup",
-          {
-            fullName: formData.fullName,
-            username: formData.username,
-            password: formData.password,
-            confirmPassword: formData.confirmPassword,
-            gender: formData.gender,
+        const payload: NewUserType = {
+          fullName: formData.fullName,
+          username: formData.username,
+          password: formData.password,
+          confirmPassword: formData.confirmPassword,
+          gender: formData.gender,
+        };
+
+        await axios.post("api/auth/signup", payload, {
+          headers: {
+            "Content-Type": "application/json",
           },
-          {
-            headers: {
-              "Content-Type": "application/json",
-            },
-          }
-        );
+        });
         setFormData({
           fullName: "",
           username: "",

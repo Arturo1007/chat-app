@@ -8,13 +8,7 @@ import {
   useState,
 } from "react";
 import axios from "axios";
-
-export type AuthUserType = {
-  id: string;
-  fullname: string;
-  username: string;
-  profilePic: string;
-};
+import { AuthUserType } from "../types/userTypes";
 
 interface AuthUserParams {
   authUser: AuthUserType | null;
