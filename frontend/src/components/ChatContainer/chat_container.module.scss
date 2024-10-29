@@ -31,11 +31,30 @@
       background-color: var(--primaryColor);
       border-bottom: 1px solid var(--disabledTextColor);
 
-      & > h2 {
-        text-align: center;
-        padding: 1rem;
+      & > div:nth-child(1) {
+        display: flex;
         border-bottom: 2px solid white;
-        position: sticky;
+
+        & > .LogOutButton {
+          margin: 0.75em;
+          background-color: transparent;
+          border: none;
+          cursor: pointer;
+          filter: invert(1);
+  
+          img {
+            width: 100%;
+            height: 100%;
+            object-fit: contain;
+          }
+        }
+  
+        & > h2 {
+          text-align: center;
+          padding: 1rem;
+          position: sticky;
+        }
+    
       }
   
       & > .Search {
