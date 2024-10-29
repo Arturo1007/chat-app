@@ -34,8 +34,9 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
     const fetchAuthUser = async () => {
       try {
         const res = await axios.get("/api/auth/get-current-user");
+        setAuthUser(res.data);
       } catch (error) {
-        console.log(error);
+        setAuthUser(null);
       } finally {
         setIsLoading(false);
       }
