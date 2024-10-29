@@ -1,20 +1,58 @@
+import axios from "axios";
 import { useState } from "react";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 export default function SignUpForm() {
-  // Form state to manage input values
   const [formData, setFormData] = useState({
-    fullname: "",
+    fullName: "",
     username: "",
     password: "",
     confirmPassword: "",
     gender: "",
   });
 
+  const navigate = useNavigate();
+
   // Handle form submit
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    console.log(formData); // You can replace this with an API call
+    const submitData = async () => {
+      try {
+        await axios.post(
+          "api/auth/signup",
+          {
+            fullName: formData.fullName,
+            username: formData.username,
+            password: formData.password,
+            confirmPassword: formData.confirmPassword,
+            gender: formData.gender,
+          },
+          {
+            headers: {
+              "Content-Type": "application/json",
+            },
+          }
+        );
+        setFormData({
+          fullName: "",
+          username: "",
+          password: "",
+          confirmPassword: "",
+          gender: "",
+        });
+
+        alert("User created succesfully");
+        // Redirect to Login page.
+        navigate("/login");
+      } catch (error) {
+        if (axios.isAxiosError(error) && error.response) {
+          alert(error.response.data.error);
+        } else {
+          alert("An unexpected error ocurred, please try again later.");
+        }
+      }
+    };
+    submitData();
   };
 
   // Handle gender change
@@ -29,10 +67,11 @@ export default function SignUpForm() {
           <label htmlFor="fullname">Fullname: </label>
           <input
             type="text"
+            value={formData.fullName}
             placeholder="Fullname"
             required
             onChange={(e) =>
-              setFormData({ ...formData, fullname: e.target.value })
+              setFormData({ ...formData, fullName: e.target.value })
             }
           />
         </div>
@@ -41,6 +80,7 @@ export default function SignUpForm() {
           <label htmlFor="username">Username: </label>
           <input
             type="text"
+            value={formData.username}
             placeholder="Username"
             required
             onChange={(e) =>
@@ -53,6 +93,7 @@ export default function SignUpForm() {
           <label htmlFor="password">Password: </label>
           <input
             type="password"
+            value={formData.password}
             placeholder="Password"
             required
             onChange={(e) =>
@@ -65,6 +106,7 @@ export default function SignUpForm() {
           <label htmlFor="confirmPassword">Confirm Password: </label>
           <input
             type="password"
+            value={formData.confirmPassword}
             placeholder="Confirm Password"
             required
             onChange={(e) =>

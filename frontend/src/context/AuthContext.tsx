@@ -7,6 +7,7 @@ import {
   useEffect,
   useState,
 } from "react";
+import axios from "axios";
 
 export type AuthUserType = {
   id: string;
@@ -29,7 +30,7 @@ const AuthContext = createContext<AuthUserParams>({
 
 export const useAuthContext = () => {
   return useContext(AuthContext);
-}
+};
 
 export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   const [authUser, setAuthUser] = useState<AuthUserType | null>(null);
@@ -38,15 +39,7 @@ export const AuthContextProvider = ({ children }: { children: ReactNode }) => {
   useEffect(() => {
     const fetchAuthUser = async () => {
       try {
-        const res = await fetch(
-          "/api/auth/get-current-user"
-        );
-        const data = await res.json();
-        console.log(data);
-
-        if (!res.ok) {
-          throw new Error(data.error);
-        }
+        const res = await axios.get("/api/auth/get-current-user");
       } catch (error) {
         console.log(error);
       } finally {
