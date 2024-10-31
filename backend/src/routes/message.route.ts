@@ -1,10 +1,10 @@
 import express from 'express';
 import protectedRoute from '../middleware/protectRoute';
-import { sendMessage, getMessages, getCurrentUserSidebarConversations } from '../controllers/message.controller';
+import { sendMessage, getMessages, getCurrentSidebarUsers } from '../controllers/message.controller';
 
 const router = express.Router();
 
-router.get('/conversations', protectedRoute, getCurrentUserSidebarConversations);
+router.get('/sidebarUsers', protectedRoute, getCurrentSidebarUsers);
 router.get('/:id', protectedRoute, getMessages);
 router.post('/send/:id', protectedRoute, sendMessage);
 

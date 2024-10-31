@@ -1,10 +1,16 @@
 export type AuthUserType = {
   id: string;
-  fullname: string;
+  fullName: string;
   username: string;
   gender: string;
   profilePic: string;
 };
+
+export type SideBarUserType = {
+  id: string;
+  fullName: string;
+  profilePic: string;
+}
 
 export type LoginUserType = {
   username: string,

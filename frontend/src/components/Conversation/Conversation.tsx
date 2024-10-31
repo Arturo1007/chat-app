@@ -1,11 +1,13 @@
 import React, { useRef, useState, useEffect } from "react";
 import styles from "./conversation.module.scss";
 import Message from "../Message/Message";
+import { useAuthContext } from "../../context/AuthContext";
 
 export default function Conversation() {
 
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const {authUser} = useAuthContext();
 
   const handleTextAreaSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
@@ -29,7 +31,7 @@ export default function Conversation() {
     <div className={styles.ChatContainer}>
       <div className={styles.topSection}>
         <span className="isOnline"></span>
-        <p>Arturo Batista Quiroz</p>
+        <p>{authUser?.fullName}</p>
       </div>
       <div className={styles.messagesSection}>
         <Message message="Hola" isCurrentUserMessage={true} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />

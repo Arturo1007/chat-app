@@ -4,8 +4,11 @@ import Chat from "../Conversation/Conversation";
 import logOutIcon from "../../assets/icons/logout.png";
 import axios from "axios";
 import { useAuthContext } from "../../context/AuthContext";
+import { useEffect, useState } from "react";
+import { SideBarUserType } from "../../types/userTypes";
 
 export default function ChatContainer() {
+  const [sidebarUsers, setSideBarUser] = useState<SideBarUserType[]>([]);
   const { setAuthUser } = useAuthContext();
 
   async function handleLougOut() {
@@ -24,13 +27,27 @@ export default function ChatContainer() {
     }
   }
 
+  useEffect(() => {
+    const fetchUsers = async () => {
+      try {
+        const { data } = await axios.get<SideBarUserType[]>(
+          "/api/messages/sidebarUsers/"
+        );
+        setSideBarUser(data);
+      } catch (error) {
+        console.log("Error getting sidebar users");
+      }
+    };
+    fetchUsers();
+  }, []);
+
   return (
     <div className={styles.ChatContainer}>
       <div className={styles.UserListSection}>
         <div className={styles.TopSection}>
           <div>
             <button className={styles.LogOutButton} onClick={handleLougOut}>
-              <img src={logOutIcon} alt="Log out Icon" />
+              <img src={logOutIcon} alt="Log out Icon" title="log out"/>
             </button>
             <h2>Users list</h2>
           </div>
@@ -40,11 +57,15 @@ export default function ChatContainer() {
           </label>
         </div>
         <div className={styles.ListOfUsers}>
-          <UserBox />
-          <UserBox />
-          <UserBox />
-          <UserBox />
-          <UserBox />
+          {sidebarUsers.length > 0 &&
+            sidebarUsers.map((user) => (
+              <UserBox
+                key={user.id}
+                id={user.id}
+                fullName={user.fullName}
+                profilePic={user.profilePic}
+              />
+            ))}
         </div>
       </div>
       <div className={styles.ChattingSection}>
