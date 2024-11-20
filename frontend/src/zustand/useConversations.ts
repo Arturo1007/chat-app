@@ -2,7 +2,7 @@ import { create } from 'zustand';
 
 type ConversationType = {
   id: string;
-  fullname: string;
+  fullName: string;
   profilePic: string;
 }
 

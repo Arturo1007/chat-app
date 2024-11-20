@@ -6,10 +6,13 @@ import axios from "axios";
 import { useAuthContext } from "../../context/AuthContext";
 import { useEffect, useState } from "react";
 import { SideBarUserType } from "../../types/userTypes";
+import useConversation from "../../zustand/useConversations";
+import NoChatSelectedContainer from "../NoChatSelectedContainer/NoChatSelectedContainer";
 
 export default function AppContainer() {
   const [sidebarUsers, setSideBarUser] = useState<SideBarUserType[]>([]);
   const { setAuthUser } = useAuthContext();
+  const {selectedConversation} = useConversation();
 
   async function handleLougOut() {
     try {
@@ -40,14 +43,13 @@ export default function AppContainer() {
     };
     fetchUsers();
   }, []);
-
   return (
     <div className={styles.AppContainer}>
       <div className={styles.UserListSection}>
         <div className={styles.TopSection}>
           <div>
             <button className={styles.LogOutButton} onClick={handleLougOut}>
-              <img src={logOutIcon} alt="Log out Icon" title="log out"/>
+              <img src={logOutIcon} alt="Log out Icon" title="Log out"/>
             </button>
             <h2>Users list</h2>
           </div>
@@ -69,7 +71,7 @@ export default function AppContainer() {
         </div>
       </div>
       <div className={styles.ChattingSection}>
-        <ChatContainer />
+        {selectedConversation ? <ChatContainer /> : <NoChatSelectedContainer /> }
       </div>
     </div>
   );
