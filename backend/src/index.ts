@@ -9,7 +9,7 @@ import { PrismaClient } from '@prisma/client';
 
 dotenv.config();
 const app = express();
-const port = 3000;
+const PORT = process.env.SERVER_PORT || 5000;
 
 app.use(session({
   secret: process.env.SESSION_SECRET!,
@@ -37,6 +37,6 @@ app.use(cookieParser());
 app.use('/api/auth', authRoutes);
 app.use('/api/messages', messageRoutes);
 
-app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+app.listen(PORT, () => {
+  console.log(`Server is running on port ${PORT}`);
 });

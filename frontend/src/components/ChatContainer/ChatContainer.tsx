@@ -1,75 +1,55 @@
+import React, { useRef, useState, useEffect } from "react";
 import styles from "./chat_container.module.scss";
-import UserBox from "../UserBox/UserBox";
-import Chat from "../Conversation/Conversation";
-import logOutIcon from "../../assets/icons/logout.png";
-import axios from "axios";
+import Message from "../Message/Message";
 import { useAuthContext } from "../../context/AuthContext";
-import { useEffect, useState } from "react";
-import { SideBarUserType } from "../../types/userTypes";
 
-export default function ChatContainer() {
-  const [sidebarUsers, setSideBarUser] = useState<SideBarUserType[]>([]);
-  const { setAuthUser } = useAuthContext();
+export default function Conversation() {
 
-  async function handleLougOut() {
-    try {
-      await axios.post("/api/auth/logout");
-      setAuthUser(null);
-    } catch (error) {
-      if (axios.isAxiosError(error) && error.response) {
-        alert(error.response.data.error);
-      } else {
-        alert("An unexpected error ocurred, please try again later.");
-        console.log(error);
-      }
-    } finally {
-      setAuthUser(null);
+  const [message, setMessage] = useState("");
+  const messagesEndRef = useRef<HTMLDivElement | null>(null);
+  const {authUser} = useAuthContext();
+
+  const handleTextAreaSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
+    if (e.key === 'Enter') {
+      e.preventDefault();
     }
+    console.log('Submiting...')
   }
 
+  const handleButtonSubmit = () => {
+    console.log('Submiting...')
+  }
+
+  // Scroll to the bottom whenever the messages change
   useEffect(() => {
-    const fetchUsers = async () => {
-      try {
-        const { data } = await axios.get<SideBarUserType[]>(
-          "/api/messages/sidebarUsers/"
-        );
-        setSideBarUser(data);
-      } catch (error) {
-        console.log("Error getting sidebar users");
-      }
-    };
-    fetchUsers();
-  }, []);
+    if (messagesEndRef.current) {
+      messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
+    }
+  }, [message]);
 
   return (
     <div className={styles.ChatContainer}>
-      <div className={styles.UserListSection}>
-        <div className={styles.TopSection}>
-          <div>
-            <button className={styles.LogOutButton} onClick={handleLougOut}>
-              <img src={logOutIcon} alt="Log out Icon" title="log out"/>
-            </button>
-            <h2>Users list</h2>
-          </div>
-
-          <label className={styles.Search}>
-            Search: <input type="text" placeholder="Look for.." />
-          </label>
-        </div>
-        <div className={styles.ListOfUsers}>
-          {sidebarUsers.length > 0 &&
-            sidebarUsers.map((user) => (
-              <UserBox
-                key={user.id}
-                id={user.id}
-                fullName={user.fullName}
-                profilePic={user.profilePic}
-              />
-            ))}
-        </div>
+      <div className={styles.topSection}>
+        <span className="isOnline"></span>
+        <p>{authUser?.fullName}</p>
       </div>
-      <div className={styles.ChattingSection}>
-        <Chat />
+      <div className={styles.messagesSection}>
+        <Message message="Hola" isCurrentUserMessage={true} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />
+        <Message message="Hola BB" isCurrentUserMessage={false} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />
+        <Message message="Como estas?" isCurrentUserMessage={true} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />
+        <Message message="Muy bien!" isCurrentUserMessage={false} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />
+        <Message message="Me alegro rey." isCurrentUserMessage={true} imageLink="https://d22e6o9mp4t2lx.cloudfront.net/cms/pfp2_11cfcec183.webp" />        
+        <div ref={messagesEndRef} />
+      </div>
+      <div className={styles.inputContainer}>
+        <textarea
+          placeholder="Write a message..."
+          value={message}
+          onChange={(e) => setMessage(e.target.value)}
+          onKeyDown={handleTextAreaSubmit}
+          rows={1}
+        ></textarea>
+        <button type="submit" onClick={handleButtonSubmit}></button>
       </div>
     </div>
   );
