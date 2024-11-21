@@ -1,23 +1,23 @@
 import { create } from 'zustand';
 
-type ConversationType = {
+export type ConversationType = {
   id: string;
   fullName: string;
   profilePic: string;
 }
 
-type MessageType = {
+export type MessageType = {
   id: string;
   body: string;
   senderId: string;
   createAt: string;
 }
 
-interface ConversationState {
+export interface ConversationState {
   selectedConversation: ConversationType | null;
-  messages: MessageType[];
+  messages: MessageType[] | null;
   setSelectedConversation: (conversation: ConversationType|null) => void;
-  setMessages: (messages: MessageType[]) => void;
+  setMessages: (messages: MessageType[] | null) => void;
 }
 
 const useConversation = create<ConversationState>((set) => ({

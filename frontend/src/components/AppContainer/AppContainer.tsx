@@ -11,7 +11,7 @@ import NoChatSelectedContainer from "../NoChatSelectedContainer/NoChatSelectedCo
 
 export default function AppContainer() {
   const [sidebarUsers, setSideBarUser] = useState<SideBarUserType[]>([]);
-  const { setAuthUser } = useAuthContext();
+  const { setAuthUser, authUser } = useAuthContext();
   const {selectedConversation} = useConversation();
 
   async function handleLougOut() {
@@ -47,11 +47,12 @@ export default function AppContainer() {
     <div className={styles.AppContainer}>
       <div className={styles.UserListSection}>
         <div className={styles.TopSection}>
-          <div>
+          <div className={styles.FirstRow}>
             <button className={styles.LogOutButton} onClick={handleLougOut}>
               <img src={logOutIcon} alt="Log out Icon" title="Log out"/>
             </button>
-            <h2>Users list</h2>
+            <img src={authUser?.profilePic} alt="User Avatar" className={styles.MessageImage} />
+            <h2>{authUser?.fullName}</h2>
           </div>
 
           <label className={styles.Search}>

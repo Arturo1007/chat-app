@@ -3,7 +3,7 @@ import styles from "./message.module.scss";
 interface Data {
   message: string;
   isCurrentUserMessage: boolean;
-  imageLink: string;
+  imageLink: string | undefined;
 }
 
 export default function Message(Data: Data) {
