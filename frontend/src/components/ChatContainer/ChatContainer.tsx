@@ -65,12 +65,11 @@ export default function Conversation() {
         messages.map((message)=> {
           let isCurrentUserMessage = false;
           let profileImage = selectedConversation?.profilePic;
-
           if(authUser?.id === message.senderId) {
             isCurrentUserMessage = true  ;
             profileImage = authUser.profilePic;
           }
-          return <Message key={message.id} message={message.body} isCurrentUserMessage={isCurrentUserMessage} imageLink={profileImage} />
+          return <Message key={message.id} createAt={message.createAt} message={message.body} isCurrentUserMessage={isCurrentUserMessage} imageLink={profileImage} />
         }) : ''}       
         <div ref={messagesEndRef} />
       </div>

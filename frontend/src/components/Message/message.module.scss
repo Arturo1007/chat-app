@@ -1,11 +1,11 @@
 .Message {
   max-width: 70%;
-  padding: 10px 15px;
+  padding: 12px 15px;
   border-radius: 3px;
   position: relative;
   font-size: 14px;
   color: #fff;
-  line-height: 1.5;
+  line-height: 1.5em;
   display: flex;
   gap: 5px;
 
@@ -31,6 +31,12 @@
       border-left: 5px solid transparent; 
       border-right: 5px solid transparent; 
     }
+
+    .Time {
+      position: absolute;
+      bottom: -0.2em;
+      color: var(--disabledTextColor);
+    }
   }
 
   &.ActiveUserMessage {
@@ -43,6 +49,10 @@
       right: -8px;
       transform: rotate(-90deg);
     }
+
+    .Time {
+      left: .5em;
+    }
   }
 
   &.OtherUserMessage {
@@ -54,6 +64,10 @@
       border-top: 10px solid var(--primaryColor);
       left: -8px;
       transform: rotate(90deg);
+    }
+
+    .Time {
+      right: .5em;
     }
   }
 }
