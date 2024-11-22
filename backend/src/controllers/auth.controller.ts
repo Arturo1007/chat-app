@@ -92,8 +92,9 @@ export const signup = async (req: Request, res: Response) => {
     const hashedPassword = await bcryptjs.hash(password, salt);
 
     // https://avatar-placeholder.iran.liara.run/
-    const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${username}`;
-    const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${username}`;
+    
+    const boyProfilePic = `https://avatar.iran.liara.run/public/boy?username=${encodeURIComponent(username)}`;
+    const girlProfilePic = `https://avatar.iran.liara.run/public/girl?username=${encodeURIComponent(username)}`;
 
     // Since property and value share same text content, it can be shorted
     const newUser = await prisma.user.create({

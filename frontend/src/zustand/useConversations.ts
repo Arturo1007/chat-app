@@ -15,9 +15,9 @@ export type MessageType = {
 
 export interface ConversationState {
   selectedConversation: ConversationType | null;
-  messages: MessageType[] | null;
+  messages: MessageType[];
   setSelectedConversation: (conversation: ConversationType|null) => void;
-  setMessages: (messages: MessageType[] | null) => void;
+  setMessages: (messages: MessageType[]) => void;
 }
 
 const useConversation = create<ConversationState>((set) => ({

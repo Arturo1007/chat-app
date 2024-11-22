@@ -9,6 +9,10 @@ export const sendMessage = async (req: Request, res: Response) => {
     // current user id.
     const senderId = req.userId;
     // Data validation.
+    if(typeof message === "string" && message.trim().length === 0) {
+      return res.status(400).json({ error: 'Message is empty' });
+    };
+
     if (!senderId || !receiverId) {
       return res.status(400).json({ error: 'Sender or receiver ID is missing' });
     }
@@ -54,7 +58,7 @@ export const sendMessage = async (req: Request, res: Response) => {
       })
     }
 
-    res.status(201).json({ newMessage });
+    res.status(201).json(newMessage);
 
   } catch (error: any) {
     console.log('Error in SendMessage controller', error.message);

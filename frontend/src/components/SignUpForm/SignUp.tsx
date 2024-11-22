@@ -20,8 +20,8 @@ export default function SignUpForm() {
     const submitData = async () => {
       try {
         const payload: NewUserType = {
-          fullName: formData.fullName,
-          username: formData.username,
+          fullName: formData.fullName.trim(),
+          username: formData.username.trim(),
           password: formData.password,
           confirmPassword: formData.confirmPassword,
           gender: formData.gender,

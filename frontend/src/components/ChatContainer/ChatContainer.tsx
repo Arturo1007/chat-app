@@ -3,23 +3,48 @@ import styles from "./chat_container.module.scss";
 import Message from "../Message/Message";
 import { useAuthContext } from "../../context/AuthContext";
 import useConversation from "../../zustand/useConversations";
+import axios from "axios";
 
 export default function Conversation() {
 
   const [message, setMessage] = useState("");
   const messagesEndRef = useRef<HTMLDivElement | null>(null);
   const {authUser} = useAuthContext();
-  const {messages, selectedConversation} = useConversation();
+  const {messages, setMessages, selectedConversation} = useConversation();
 
   const handleTextAreaSubmit = (e: React.KeyboardEvent<HTMLTextAreaElement>) => {
     if (e.key === 'Enter') {
       e.preventDefault();
+      handleSubmit();
     }
-    console.log('Submiting...')
   }
 
-  const handleButtonSubmit = () => {
-    console.log('Submiting...')
+  const handleSubmit = async () => {
+    try {
+      const trimedMessage = message.trim();
+      const payload: {message: string} = {
+        message: trimedMessage,
+      };
+      if(!trimedMessage) return
+
+      const {data} = await axios.post(`/api/messages/send/${selectedConversation?.id}`, payload, {
+        headers: {
+          "Content-Type": "application/json",
+        },
+      });
+      console.log(data);
+      setMessages([...messages, data]);
+      setMessage('');
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        if(error.response.data.error != "Message is empty"){
+          alert(error.response.data.error);
+        }
+      } else {
+        alert("An unexpected error ocurred, please try again later.");
+        console.log(error);
+      }
+    }
   }
 
   // Scroll to the bottom whenever the messages change
@@ -27,7 +52,7 @@ export default function Conversation() {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: "smooth" });
     }
-  }, [message]);
+  }, [messages]);
 
   return (
     <div className={styles.ChatContainer}>
@@ -57,7 +82,7 @@ export default function Conversation() {
           onKeyDown={handleTextAreaSubmit}
           rows={1}
         ></textarea>
-        <button type="submit" onClick={handleButtonSubmit}></button>
+        <button type="submit" onClick={handleSubmit}></button>
       </div>
     </div>
   );
