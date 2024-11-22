@@ -11,6 +11,7 @@ import NoChatSelectedContainer from "../NoChatSelectedContainer/NoChatSelectedCo
 
 export default function AppContainer() {
   const [sidebarUsers, setSideBarUser] = useState<SideBarUserType[]>([]);
+  const [search, setSearch] = useState('');
   const { setAuthUser, authUser } = useAuthContext();
   const {selectedConversation} = useConversation();
 
@@ -56,7 +57,7 @@ export default function AppContainer() {
           </div>
 
           <label className={styles.Search}>
-            Search: <input type="text" placeholder="Look for.." />
+            Search: <input type="text" placeholder="Look for.." value={search} onChange={(e) => {setSearch(e.target.value)}} />
           </label>
         </div>
         <div className={styles.ListOfUsers}>
